@@ -1,16 +1,3 @@
-// function validFormFieldInput(data) {
-//   const newTaskNameInput = document.querySelector('#newTaskNameInput');
-
-
-//   const taskName = newTaskNameInput.value;
-
-
-
-//   console.log("name:  " + taskName);
-
-//   document.getElementById("myForm").reset();
-// }
-
 let task1 = new TaskManager();
 
 
@@ -30,6 +17,7 @@ function validFormFieldInput(data) {
   const assignedTo = newAssignedToInput.value;
   const dueDate = newDueDateInput.value;
 
+  
   //  Check if all input fields are valid, else display warning
   if (taskName && description && assignedTo && dueDate) {
     warning.style.display = 'none';
