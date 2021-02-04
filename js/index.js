@@ -1,3 +1,18 @@
+// function validFormFieldInput(data) {
+//   const newTaskNameInput = document.querySelector('#newTaskNameInput');
+
+
+//   const taskName = newTaskNameInput.value;
+
+
+
+//   console.log("name:  " + taskName);
+
+//   document.getElementById("myForm").reset();
+// }
+
+let task1 = new TaskManager();
+
 
 function validFormFieldInput(data) {
   //  Select form elements with querySelector
@@ -15,25 +30,14 @@ function validFormFieldInput(data) {
   const assignedTo = newAssignedToInput.value;
   const dueDate = newDueDateInput.value;
 
-  //  Log values to verify data 
-  //console.log("name:  " + taskName);
-  //console.log("description:  " + description);
-  //console.log("assignedTo:  " + assignedTo);
-  //console.log("dueDate:  " + dueDate);
-
-
+  //  Check if all input fields are valid, else display warning
   if (taskName && description && assignedTo && dueDate) {
-    //console.log('Valid inputs: hide alert');
     warning.style.display = 'none';
+    task1.addTask(taskName, description, assignedTo, dueDate)
+    console.log(task1.tasks);
+    document.getElementById("form").reset();
   } else {
-    //console.log('Invalid inputs: show alert');
     warning.style.display = 'block';
   }
-
-  let task1 = new TaskManager();
-
-  task1.addTask(taskName, description, assignedTo, dueDate)
-  console.log(task1.tasks);
-
 
 }
