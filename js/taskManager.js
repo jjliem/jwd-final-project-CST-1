@@ -3,7 +3,7 @@ class TaskManager {
       this.tasks = [];
       this.currentId = currentId;
   }
-    addTask(jobName, desc, assign, due, stat) {
+    addTask(jobName, desc, assign, due, stat = 'To Do') {
       this.currentId ++
       const taskName = {
         name: jobName,
@@ -14,19 +14,6 @@ class TaskManager {
       }
       this.tasks.push(taskName);
     }
-  
-
-  addTask(name, description, assignedTo, dueDate, status = 'TODO') {
-    this.currentId++;
-    this.tasks.push(
-      { id: this.currentId, 
-        name: name, 
-        description: description, 
-        assignedTo: assignedTo, 
-        dueDate: dueDate, 
-        status: status }
-    );
-  };
 }
 // TESTING
 // const taskManager = new TaskManager();
