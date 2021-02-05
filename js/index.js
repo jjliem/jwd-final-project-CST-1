@@ -1,31 +1,50 @@
-let task1 = new TaskManager();
+let taskManager = new TaskManager();
 
 
-function validFormFieldInput(data) {
-  //  Select form elements with querySelector
+function submitFunction() {
+  //  Select Form Elements 
   const newTaskNameInput = document.querySelector('#newTaskNameInput');
   const newDescriptionInput = document.querySelector('#newDescriptionInput');
   const newAssignedToInput = document.querySelector('#newAssignedToInput');
   const newDueDateInput = document.querySelector('#newDueDateInput');
-  const submitButton = document.querySelector('#submitButton');
   const warning = document.querySelector('#warning');
 
 
-  //  Get values from form and save into variables
+  //  Save Values
   const taskName = newTaskNameInput.value;
   const description = newDescriptionInput.value;
   const assignedTo = newAssignedToInput.value;
   const dueDate = newDueDateInput.value;
 
+
+  //  Validate Form
+  const formFilled = validFormFieldInput(taskName, description, assignedTo, dueDate);
   
-  //  Check if all input fields are valid, else display warning
-  if (taskName && description && assignedTo && dueDate) {
+  
+  //  If valid, hide alert, add task to array, reset form
+  if (formFilled) {
     warning.style.display = 'none';
-    task1.addTask(taskName, description, assignedTo, dueDate)
-    console.log(task1.tasks);
+    taskManager.addTask(taskName, description, assignedTo, dueDate)
+
+    //  TESTING
+    console.log(taskManager.tasks);
+
     document.getElementById("form").reset();
   } else {
     warning.style.display = 'block';
   }
-
 }
+
+
+function validFormFieldInput(taskName, description, assignedTo, dueDate) {
+  if (taskName && description && assignedTo && dueDate) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+
+//  LISTEN FOR SUBMIT BUTTON CLICK
+const submitButton = document.querySelector('#submitButton');
+submitButton.addEventListener('click', submitFunction);
