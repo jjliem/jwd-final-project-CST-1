@@ -13,31 +13,38 @@ function submitFunction() {
   //  Save Values
   const taskName = newTaskNameInput.value;
   const description = newDescriptionInput.value;
-  const assignedTo = newAssignedToInput.value;
+  const assign = newAssignedToInput.value;
   const dueDate = newDueDateInput.value;
 
 
   //  Validate Form
-  const formFilled = validFormFieldInput(taskName, description, assignedTo, dueDate);
+  const formFilled = validFormFieldInput(taskName, description, assign, dueDate);
   
   
   //  If valid, hide alert, add task to array, reset form
   if (formFilled) {
     warning.style.display = 'none';
-    taskManager.addTask(taskName, description, assignedTo, dueDate)
+    taskManager.addTask(taskName, description, assign, dueDate);
+    
+    const taskHtml = createTaskHtml(taskManager.tasks[0].name, taskManager.tasks[0].description, taskManager.tasks[0].assign, taskManager.tasks[0].dueDate, taskManager.tasks[0].status);
 
     //  TESTING
-    console.log(taskManager.tasks);
+    //console.log(taskManager.tasks);
+    console.log(taskHtml);
 
     document.getElementById("form").reset();
+
+    
   } else {
     warning.style.display = 'block';
   }
 }
 
 
-function validFormFieldInput(taskName, description, assignedTo, dueDate) {
-  if (taskName && description && assignedTo && dueDate) {
+
+
+function validFormFieldInput(taskName, description, assign, dueDate) {
+  if (taskName && description && assign && dueDate) {
     return true;
   } else {
     return false;
