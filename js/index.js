@@ -58,3 +58,12 @@ function validFormFieldInput(taskName, description, assign, dueDate) {
 //  LISTEN FOR SUBMIT BUTTON CLICK
 const submitButton = document.querySelector('#submitButton');
 submitButton.addEventListener('click', submitFunction);
+
+//TASK LIST BUTTON
+const taskButton = document.querySelector('#task-list');
+taskButton.addEventListener('click', (event) => { 
+  if(event.target.classList.includes('done-button')) {
+    event.target.parentElement
+  }
+  ;
+});
