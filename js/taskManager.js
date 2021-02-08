@@ -1,6 +1,6 @@
 const createTaskHtml = (name, desc, assign, due, stat) => {
   const html = `
-  <li class="list-group-item card" style="width: 30rem;">
+  <li class="list-group-item bg-light card" style="width: 30rem;">
   <div class="card-body">
     <h4 class="card-title">Task Name: ${name}</h4>
     <!--Dropdown buttons-->
@@ -16,8 +16,8 @@ const createTaskHtml = (name, desc, assign, due, stat) => {
         <a class="dropdown-item" href="#">Complete</a>
       </div>
     </div> -->
-    <h6 class="card-assignment">Assigned To: ${assign}</h6>
     <h6 class="card-assignment">Description: ${desc}</h6>
+    <h6 class="card-assignment">Assigned To: ${assign}</h6>
     <h6 class="card-assignment text-right">Due: ${due}</h6>
     <h6 class="card-assignment">Status: ${stat}</h6>
     <a href="#" class="btn btn-primary">Delete</a>
@@ -33,22 +33,33 @@ class TaskManager {
       this.currentId = currentId;
   }
     addTask(name, desc, assign, due, stat = 'To Do') {
-      this.currentId ++
-      const taskName = {
+      this.currentId ++;
+      const task = {
         name: name,
-        description: desc,
+        desc: desc,
         assign: assign,
-        dueDate: due,
-        status: stat
-      }
-      this.tasks.push(taskName);
+        due: due,
+        stat: stat
+      };
+      this.tasks.push(task);
     }
 
     render() {
       const tasksHtmlList = [];
-      tasksHtmlList.forEach(task => {
-        console.log(element)
+      this.tasks.forEach(task => {
+        //  Create Date object from due date input
+        const dueDate = new Date(task.due);
+        //  Format the date
+        const formattedDate = dueDate.toDateString();
+        //  Create HTML string for current task
+        const taskHtml = createTaskHtml(task.name, task.desc, task.assign, formattedDate, task.stat);
+        //  Push HTML string to array
+        tasksHtmlList.push(taskHtml);
       });
+      //  Join all array elemnts with new line in between
+      const taskHtml = tasksHtmlList.join('\n');
+      //  Find class=task-list in index.html and replace with our HTML string
+      document.getElementById("task-list").innerHTML = taskHtml;
     }
 }
 // TESTING
