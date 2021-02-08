@@ -2,7 +2,7 @@ const createTaskHtml = (name, desc, assign, due, stat) => {
   const html = `
   <li class="list-group-item bg-light card" style="width: 30rem;">
   <div class="card-body">
-    <h4 class="card-title">Task Name: ${name}</h4>
+    <h4 class="card-title">${name}</h4>
     <!--Dropdown buttons-->
     <!-- <div class="dropdown float-right">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -18,9 +18,9 @@ const createTaskHtml = (name, desc, assign, due, stat) => {
     </div> -->
     <h6 class="card-assignment">Description: ${desc}</h6>
     <h6 class="card-assignment">Assigned To: ${assign}</h6>
-    <h6 class="card-assignment text-right">Due: ${due}</h6>
     <h6 class="card-assignment">Status: ${stat}</h6>
-    <a href="#" class="btn btn-primary">Delete</a>
+    <h6 class="card-assignment text-right">Due: ${due}</h6>
+    <button type="button" class="btn btn-success done-button">Mark as done</button>
   </div>
 </li>
   `
