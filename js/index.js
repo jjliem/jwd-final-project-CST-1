@@ -1,4 +1,7 @@
 let taskManager = new TaskManager();
+//  Load and render saved tasks if any
+taskManager.load();
+taskManager.render();
 
 
 function submitFunction() {
@@ -21,10 +24,15 @@ function submitFunction() {
   const formFilled = validFormFieldInput(taskName, description, assign, dueDate);
   
   
-  //  If valid, hide alert, add task to array, reset form
+  //  If form valid, hide warning, add task to array, reset form
   if (formFilled) {
     warning.style.display = 'none';
+    //  Add task to task array
     taskManager.addTask(taskName, description, assign, dueDate);
+
+    //  Save task array to localStorage
+    taskManager.save();
+
 
     //  TESTING
     //console.log(taskManager.tasks);
@@ -71,7 +79,10 @@ taskButton.addEventListener('click', (event) => {
 
     //  Get task associated with that id
     const task = taskManager.getTaskById(taskId);
+
+    //  Update task status to done, save, render
     task.stat = 'DONE';
+    taskManager.save();
     taskManager.render();
   }
 });

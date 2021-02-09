@@ -32,6 +32,9 @@ class TaskManager {
       this.tasks = [];
       this.currentId = currentId;
   }
+
+
+    //  Gets values from form, stores values in object, pushes to array
     addTask(name, desc, assign, due, stat = 'To Do') {
       this.currentId ++;
       const task = {
@@ -45,6 +48,8 @@ class TaskManager {
       this.tasks.push(task);
     }
 
+
+    //  For every task in array, format date, create HTML card, and display in task-list
     render() {
       const tasksHtmlList = [];
       this.tasks.forEach(task => {
@@ -63,6 +68,8 @@ class TaskManager {
       document.getElementById("task-list").innerHTML = taskHtml;
     }
 
+
+    //  Return task based on DONE button that was pressed
     getTaskById(taskId) {
       let foundTask;
       this.tasks.forEach(task => {
@@ -72,6 +79,30 @@ class TaskManager {
       });
       return foundTask;
     }
+
+
+    //  Save this.tasks and this.currentId into JSON strings
+    save() {
+      const tasksJson = JSON.stringify(this.tasks);
+      localStorage.setItem('tasks', tasksJson);
+      const currentId = JSON.stringify(this.currentId);
+      localStorage.setItem('currentId', currentId);
+    }
+
+
+    //  Convert JSON tasks and currentId to array and number
+    load() {
+      if (localStorage.getItem('tasks')) {
+        const tasksJson = localStorage.getItem('tasks');
+        this.tasks = JSON.parse(tasksJson);
+      }
+      if (localStorage.getItem('currentId')) {
+        const currentId = localStorage.getItem('currentId');
+        this.currentId = Number(currentId);
+      }
+    }
+    
+
 }
 // TESTING
 // const taskManager = new TaskManager();
