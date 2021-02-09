@@ -27,7 +27,7 @@ function submitFunction() {
     taskManager.addTask(taskName, description, assign, dueDate);
 
     //  TESTING
-    console.log(taskManager.tasks);
+    //console.log(taskManager.tasks);
     //const taskHtml = createTaskHtml(taskManager.tasks[0].name, taskManager.tasks[0].description, taskManager.tasks[0].assign, taskManager.tasks[0].dueDate, taskManager.tasks[0].status);
     //console.log(taskHtml);
 
@@ -59,11 +59,19 @@ function validFormFieldInput(taskName, description, assign, dueDate) {
 const submitButton = document.querySelector('#submitButton');
 submitButton.addEventListener('click', submitFunction);
 
-// TASK LIST BUTTON
+// LISTEN FOR MARK AS DONE BUTTON
 const taskButton = document.querySelector('#task-list');
 taskButton.addEventListener('click', (event) => { 
-  if(event.target.classList.includes('done-button')) {
-    event.target.parentElement
+  if(event.target.classList.contains('done-button')) {
+    //  Find <li> parent element that holds card
+    const parentTask = event.target.parentElement.parentElement;
+
+    //  Find id number in <li> of card that was marked as done
+    const taskId = Number(parentTask.dataset.taskId);
+
+    //  Get task associated with that id
+    const task = taskManager.getTaskById(taskId);
+    task.stat = 'DONE';
+    taskManager.render();
   }
-  ;
 });

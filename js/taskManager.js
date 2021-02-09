@@ -1,6 +1,6 @@
-const createTaskHtml = (name, desc, assign, due, stat) => {
+const createTaskHtml = (id, name, desc, assign, due, stat) => {
   const html = `
-  <li class="list-group-item bg-light card" style="width: 30rem;">
+  <li class="list-group-item bg-light card" style="width: 30rem;" data-task-id="${id}">
   <div class="card-body">
     <h4 class="card-title">${name}</h4>
     <!--Dropdown buttons-->
@@ -35,6 +35,7 @@ class TaskManager {
     addTask(name, desc, assign, due, stat = 'To Do') {
       this.currentId ++;
       const task = {
+        id: this.currentId,
         name: name,
         desc: desc,
         assign: assign,
@@ -52,7 +53,7 @@ class TaskManager {
         //  Format the date
         const formattedDate = dueDate.toDateString();
         //  Create HTML string for current task
-        const taskHtml = createTaskHtml(task.name, task.desc, task.assign, formattedDate, task.stat);
+        const taskHtml = createTaskHtml(task.id, task.name, task.desc, task.assign, formattedDate, task.stat);
         //  Push HTML string to array
         tasksHtmlList.push(taskHtml);
       });
@@ -60,6 +61,16 @@ class TaskManager {
       const taskHtml = tasksHtmlList.join('\n');
       //  Find class=task-list in index.html and replace with our HTML string
       document.getElementById("task-list").innerHTML = taskHtml;
+    }
+
+    getTaskById(taskId) {
+      let foundTask;
+      this.tasks.forEach(task => {
+        if (task.id === taskId) {
+          foundTask = task;
+        }
+      });
+      return foundTask;
     }
 }
 // TESTING
