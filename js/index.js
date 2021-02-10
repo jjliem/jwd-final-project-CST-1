@@ -4,6 +4,7 @@ taskManager.load();
 taskManager.render();
 
 
+
 function submitFunction() {
   //  Select Form Elements 
   const newTaskNameInput = document.querySelector('#newTaskNameInput');
@@ -32,6 +33,7 @@ function submitFunction() {
 
     //  Save task array to localStorage
     taskManager.save();
+    taskManager.render();
 
 
     //  TESTING
@@ -67,9 +69,9 @@ function validFormFieldInput(taskName, description, assign, dueDate) {
 const submitButton = document.querySelector('#submitButton');
 submitButton.addEventListener('click', submitFunction);
 
-// LISTEN FOR MARK AS DONE AND DELETE BUTTONS
-const taskButton = document.querySelector('#task-list');
-taskButton.addEventListener('click', (event) => { 
+// LISTEN FOR TASK LIST BUTTONS
+const taskList = document.querySelector('#task-list');
+taskList.addEventListener('click', (event) => { 
   if(event.target.classList.contains('done-button')) {
     //  Find <li> parent element that holds card
     const parentTask = event.target.parentElement.parentElement;
@@ -81,10 +83,32 @@ taskButton.addEventListener('click', (event) => {
     const task = taskManager.getTaskById(taskId);
 
     //  Update task status to done, save, render
-    task.stat = 'DONE';
+    task.stat = 'DONE'
+    
+    taskManager.save();
+    taskManager.render();
+    
+  }
+  if(event.target.classList.contains('delete-button')) {
+    //  Find <li> parent element that holds card
+    const parentTask = event.target.parentElement.parentElement;
+
+    //  Find id number in <li> of card that was marked as done
+    const taskId = Number(parentTask.dataset.taskId);
+
+    //  Pass taskId to deleteTask method
+    taskManager.deleteTask(taskId);
+
+    //  Save and render new task list
     taskManager.save();
     taskManager.render();
   }
+});
+
+// LISTEN FOR COMPLETE LIST BUTTONS
+const completeList = document.querySelector('#complete-list');
+completeList.addEventListener('click', (event) => { 
+
   if(event.target.classList.contains('delete-button')) {
     //  Find <li> parent element that holds card
     const parentTask = event.target.parentElement.parentElement;

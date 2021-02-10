@@ -1,4 +1,12 @@
 const createTaskHtml = (id, name, desc, assign, due, stat) => {
+  let badgeStatus;
+  let doneButtonHtml = '<button type="button" class="btn btn-success done-button">Mark as done</button>';
+  if (stat == 'To Do') {
+    badgeStatus = 'badge-warning';
+  } else if (stat == 'DONE') {
+    badgeStatus = 'badge-success';
+    doneButtonHtml = '';
+  }
   const html = `
   <li class="list-group-item bg-light card" style="width: 30rem;" data-task-id="${id}">
   <div class="card-body">
@@ -18,9 +26,10 @@ const createTaskHtml = (id, name, desc, assign, due, stat) => {
     </div> -->
     <h6 class="card-assignment">Description: ${desc}</h6>
     <h6 class="card-assignment">Assigned To: ${assign}</h6>
-    <h6 class="card-assignment">Status: ${stat}</h6>
+    <h6>Status: <span class="badge badge-secondary badge ${badgeStatus}">${stat}</span></h6>
+
     <h6 class="card-assignment text-right">Due: ${due}</h6>
-    <button type="button" class="btn btn-success done-button">Mark as done</button>
+    ${doneButtonHtml}
     <button type="button" class="btn btn-danger delete-button">Delete</button>
   </div>
 </li>
@@ -52,7 +61,8 @@ class TaskManager {
 
     //  For every task in array, format date, create HTML card, and display in task-list
     render() {
-      const tasksHtmlList = [];
+      const tasksToDoList = [];
+      const tasksCompleteList = [];
       this.tasks.forEach(task => {
         //  Create Date object from due date input
         const dueDate = new Date(task.due);
@@ -60,13 +70,19 @@ class TaskManager {
         const formattedDate = dueDate.toDateString();
         //  Create HTML string for current task
         const taskHtml = createTaskHtml(task.id, task.name, task.desc, task.assign, formattedDate, task.stat);
-        //  Push HTML string to array
-        tasksHtmlList.push(taskHtml);
+        //  Push HTML string to either To Do List or Complete List
+        if (task.stat == 'To Do') {
+          tasksToDoList.push(taskHtml);
+        } else if (task.stat == 'DONE') {
+          tasksCompleteList.push(taskHtml);
+        }
       });
-      //  Join all array elemnts with new line in between
-      const taskHtml = tasksHtmlList.join('\n');
-      //  Find class=task-list in index.html and replace with our HTML string
-      document.getElementById("task-list").innerHTML = taskHtml;
+      //  Join all array elements with new line in between
+      const taskToDo = tasksToDoList.join('\n');
+      const taskComplete = tasksCompleteList.join('\n');
+      //  Find class=task-list and complete-list in index.html and replace with our HTML string
+      document.getElementById("task-list").innerHTML = taskToDo;
+      document.getElementById("complete-list").innerHTML = taskComplete;
     }
 
 
@@ -74,7 +90,7 @@ class TaskManager {
     getTaskById(taskId) {
       let foundTask;
       this.tasks.forEach(task => {
-        if (task.id === taskId) {
+        if (task.id == taskId) {
           foundTask = task;
         }
       });
