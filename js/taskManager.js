@@ -21,6 +21,7 @@ const createTaskHtml = (id, name, desc, assign, due, stat) => {
     <h6 class="card-assignment">Status: ${stat}</h6>
     <h6 class="card-assignment text-right">Due: ${due}</h6>
     <button type="button" class="btn btn-success done-button">Mark as done</button>
+    <button type="button" class="btn btn-danger delete-button">Delete</button>
   </div>
 </li>
   `
@@ -101,8 +102,18 @@ class TaskManager {
         this.currentId = Number(currentId);
       }
     }
-    
 
+
+    //  Delete a task from the list
+    deleteTask (taskId) {
+      const newTasks = [];
+      this.tasks.forEach(task => {
+        if (task.id != taskId) {
+          newTasks.push(task);
+        }
+        this.tasks = newTasks;
+      });
+    }
 }
 // TESTING
 // const taskManager = new TaskManager();
