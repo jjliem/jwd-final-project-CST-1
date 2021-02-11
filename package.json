@@ -1,0 +1,29 @@
+{
+  "name": "jwd-final-project-cst-1",
+  "version": "1.0.0",
+  "description": "Generation USA JWD Final Project CST Group 1",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rfrias8/jwd-final-project-cst-1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rfrias8/jwd-final-project-cst-1/issues"
+  },
+  "homepage": "https://github.com/rfrias8/jwd-final-project-cst-1#readme",
+  "devDependencies": {
+    "mocha": "^8.2.1"
+  },
+  "dependencies": {
+    "chai": "^4.3.0"
+  }
+}

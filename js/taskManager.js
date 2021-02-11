@@ -1,6 +1,12 @@
-const createTaskHtml = (name, desc, assign, due, stat) => {
+const createTaskHtml = (id, name, desc, assign, due, stat) => {
+  let badgeStatus;
+    if(stat == "To Do") {
+      badgeStatus = "badge-warning";
+    } else if (stat == "Done") {
+      badgeStatus = "badge-success";
+    }
   const html = `
-  <li class="list-group-item bg-light card" style="width: 30rem;">
+  <li class="list-group-item bg-light card" style="width: 30rem;" data-task-id = "${id}">
   <div class="card-body">
     <h4 class="card-title">${name}</h4>
     <!--Dropdown buttons-->
@@ -18,12 +24,13 @@ const createTaskHtml = (name, desc, assign, due, stat) => {
     </div> -->
     <h6 class="card-assignment">Description: ${desc}</h6>
     <h6 class="card-assignment">Assigned To: ${assign}</h6>
-    <h6 class="card-assignment">Status: ${stat}</h6>
+    <h6>Status: <span class="badge badge-seconday ${badgeStatus}" id="badge-stat">${stat}</span></h6>
     <h6 class="card-assignment text-right">Due: ${due}</h6>
     <button type="button" class="btn btn-success done-button">Mark as done</button>
+    <button type="button" class="btn btn-danger delete-button">Delete</button>
   </div>
-</li>
-  `
+</li>`
+
   return html;
 };
 
@@ -35,6 +42,7 @@ class TaskManager {
     addTask(name, desc, assign, due, stat = 'To Do') {
       this.currentId ++;
       const task = {
+        id: this.currentId,
         name: name,
         desc: desc,
         assign: assign,
@@ -45,25 +53,81 @@ class TaskManager {
     }
 
     render() {
-      const tasksHtmlList = [];
+      const tasksToDoList = [];
+      const tasksCompleteList = [];
       this.tasks.forEach(task => {
         //  Create Date object from due date input
         const dueDate = new Date(task.due);
         //  Format the date
         const formattedDate = dueDate.toDateString();
         //  Create HTML string for current task
-        const taskHtml = createTaskHtml(task.name, task.desc, task.assign, formattedDate, task.stat);
+        const taskHtml = createTaskHtml(task.id, task.name, task.desc, task.assign, formattedDate, task.stat);
         //  Push HTML string to array
-        tasksHtmlList.push(taskHtml);
+        if(task.stat == "To Do") {
+          tasksToDoList.push(taskHtml);
+        } else if (task.stat == "Done") {
+          tasksCompleteList.push(taskHtml);
+        }
       });
-      //  Join all array elemnts with new line in between
-      const taskHtml = tasksHtmlList.join('\n');
+      //  Join all array elements with new line in between
+      const taskToDo = tasksToDoList.join('\n');
+      const taskComplete = tasksCompleteList.join('\n');
       //  Find class=task-list in index.html and replace with our HTML string
-      document.getElementById("task-list").innerHTML = taskHtml;
+      document.getElementById("task-list").innerHTML = taskToDo;
+      document.getElementById("complete-list").innerHTML = taskComplete;
     }
+
+    getTaskById(taskId) {
+      let foundTask;
+      this.tasks.forEach(task => {
+        //console.log(task); 
+      if (task.id === taskId) {
+        foundTask = task;
+      }
+      });
+      return foundTask;
+      
+    }
+
+    save() {
+      const tasksJson = JSON.stringify(this.tasks);
+      localStorage.setItem('tasks', tasksJson);
+      const currentId = JSON.stringify(this.currentId);
+      localStorage.setItem('currentId',currentId);
+    }
+
+    load() {
+      if (localStorage.getItem('tasks')) {
+        const tasksJson = localStorage.getItem('tasks')
+        this.tasks = JSON.parse(tasksJson);
+      }
+
+      if(localStorage.getItem('currentId')) {
+        const currentId = localStorage.getItem('currentId')
+        this.currentId = Number(currentId);
+      }
+    }
+
+    deleteTask (taskId) {
+      const newTasks = [];
+      this.tasks.forEach(task => {
+        if (task.id !== taskId) {
+          newTasks.push(task);
+          console.log(this.tasks);
+        } 
+        this.tasks = newTasks;       
+         
+      });
+    }
+
+    
+
 }
+
+module.exports = TaskManager;
+
 // TESTING
-// const taskManager = new TaskManager();
+//const taskManager = new TaskManager();
 // taskManager.addTask('name', 'desc','assigned', 'due');
 // console.log(taskManager.tasks[0].name);
 // console.log(taskManager.tasks[0].description);
