@@ -1,3 +1,16 @@
 .col-sm {
-  border: 1px solid pink;
+  border: 1px solid rgb(235, 227, 228);
+  
+} 
+
+.col-sm h1{
+  text-align: center;
+}
+
+.list-group-item {
+  margin-bottom: 10px;
+}
+
+.container-fluid {
+  background-color: rgb(68, 112, 122);
 }

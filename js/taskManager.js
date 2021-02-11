@@ -27,13 +27,12 @@ const createTaskHtml = (id, name, desc, assign, due, stat) => {
     <h6 class="card-assignment">Description: ${desc}</h6>
     <h6 class="card-assignment">Assigned To: ${assign}</h6>
     <h6>Status: <span class="badge badge-secondary badge ${badgeStatus}">${stat}</span></h6>
-
     <h6 class="card-assignment text-right">Due: ${due}</h6>
     ${doneButtonHtml}
     <button type="button" class="btn btn-danger delete-button">Delete</button>
   </div>
-</li>
-  `
+</li>`
+
   return html;
 };
 
@@ -130,9 +129,39 @@ class TaskManager {
         this.tasks = newTasks;
       });
     }
+
+    load() {
+      if (localStorage.getItem('tasks')) {
+        const tasksJson = localStorage.getItem('tasks')
+        this.tasks = JSON.parse(tasksJson);
+      }
+
+      if(localStorage.getItem('currentId')) {
+        const currentId = localStorage.getItem('currentId')
+        this.currentId = Number(currentId);
+      }
+    }
+
+    deleteTask (taskId) {
+      const newTasks = [];
+      this.tasks.forEach(task => {
+        if (task.id !== taskId) {
+          newTasks.push(task);
+          console.log(this.tasks);
+        } 
+        this.tasks = newTasks;       
+         
+      });
+    }
+
+    
+
 }
+
+module.exports = TaskManager;
+
 // TESTING
-// const taskManager = new TaskManager();
+//const taskManager = new TaskManager();
 // taskManager.addTask('name', 'desc','assigned', 'due');
 // console.log(taskManager.tasks[0].name);
 // console.log(taskManager.tasks[0].description);

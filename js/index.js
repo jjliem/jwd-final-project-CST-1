@@ -3,8 +3,6 @@ let taskManager = new TaskManager();
 taskManager.load();
 taskManager.render();
 
-
-
 function submitFunction() {
   //  Select Form Elements 
   const newTaskNameInput = document.querySelector('#newTaskNameInput');
@@ -30,6 +28,7 @@ function submitFunction() {
     warning.style.display = 'none';
     //  Add task to task array
     taskManager.addTask(taskName, description, assign, dueDate);
+    taskManager.save();
 
     //  Save task array to localStorage
     taskManager.save();
