@@ -8,7 +8,7 @@ const createTaskHtml = (id, name, desc, assign, due, stat) => {
     doneButtonHtml = '';
   }
   const html = `
-  <li class="list-group-item bg-light card" style="width: 30rem;" data-task-id="${id}">
+  <li class="list-group-item bg-light card shadow-lg style="width: 30rem;" data-task-id = "${id}">
   <div class="card-body">
     <h4 class="card-title">${name}</h4>
     <!--Dropdown buttons-->
