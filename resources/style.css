@@ -1,5 +1,5 @@
 .col-sm {
-  margin-top: 245px;
+  margin-top: 25px;
 } 
 
 ul {
@@ -30,7 +30,7 @@ ul {
 }
 
 .container-fluid {
-  background-image: url('./Graduation.png');
+  background-image: url('./background.jpg');
   background-size: 100% 100%;
   background-repeat: no-repeat;
   min-height: 1000PX;
